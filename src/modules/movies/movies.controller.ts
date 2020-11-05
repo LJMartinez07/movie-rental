@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
-
-@Controller('movies')
-export class MoviesController {}
+import { routes } from '../../constants';
+@Controller(routes.movies)
+export class MoviesController { }
