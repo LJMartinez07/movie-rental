@@ -1,5 +1,11 @@
-import { Column, CreateDateColumn, Entity, UpdateDateColumn, OneToMany } from 'typeorm';
-import { movieImages } from './movieImages'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
+import { movieImages } from './movieImages';
 @Entity()
 export class movie {
   @Column()
@@ -8,7 +14,7 @@ export class movie {
   @Column()
   public title: string;
 
-  @OneToMany(() => movieImages, image => image.movie)
+  @OneToMany(() => movieImages, (image) => image.movie)
   images: movieImages[];
 
   @Column()
