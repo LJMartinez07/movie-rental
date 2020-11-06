@@ -18,6 +18,15 @@ export class User {
   public username: string;
 
   @Column()
+  public email: string;
+
+  @Column()
+  public first_name: string;
+
+  @Column()
+  public last_name: string;
+
+  @Column()
   public password: string;
 
   @Column()
