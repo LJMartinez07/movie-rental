@@ -1,23 +1,30 @@
-import { Column, CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, UpdateDateColumn, OneToMany } from 'typeorm';
+import { movieImages } from './movieImages'
 @Entity()
 export class movie {
   @Column()
   public id: number;
 
   @Column()
-  public backdrop_path: string;
-
-  @Column()
   public title: string;
 
-  @Column()
-  public vote_avarage: number;
+  @OneToMany(() => movieImages, image => image.movie)
+  images: movieImages[];
 
   @Column()
-  public vote_count: number;
+  stock: number;
 
-  @Column()
-  public popularity: number;
+  @Column({ default: 0 })
+  onRent: number;
+
+  @Column({ default: true })
+  availability: boolean;
+
+  @Column({ type: 'float' })
+  rental_price: number;
+
+  @Column({ type: 'float' })
+  sale_price: number;
 
   @Column()
   @CreateDateColumn()
