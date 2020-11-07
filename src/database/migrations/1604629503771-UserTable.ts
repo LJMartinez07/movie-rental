@@ -7,34 +7,34 @@ export class UserTable1604629503771 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int4',
+            type: 'int',
             isPrimary: true,
             isGenerated: true,
             generationStrategy: 'increment',
           },
           {
             name: 'username',
-            type: 'varchart',
+            type: 'varchar',
             isNullable: false,
           },
           {
             name: 'first_name',
-            type: 'varchart',
+            type: 'varchar',
             isNullable: false,
           },
           {
             name: 'last_name',
-            type: 'varchart',
+            type: 'varchar',
             isNullable: false,
           },
           {
             name: 'email',
-            type: 'varchart',
+            type: 'varchar',
             isNullable: false,
           },
           {
             name: 'password',
-            type: 'varchart',
+            type: 'varchar',
             isNullable: false,
           },
           {

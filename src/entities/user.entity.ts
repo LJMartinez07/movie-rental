@@ -6,7 +6,9 @@ import {
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
+  OneToMany
 } from 'typeorm';
+import { Auth } from './auth.entity'
 
 @Entity()
 @Unique(['username'])
@@ -28,6 +30,12 @@ export class User {
 
   @Column()
   public password: string;
+
+  @OneToMany(
+    type => Auth,
+    auth => auth.user,
+  )
+  auths: Auth[];
 
   @Column()
   @CreateDateColumn()

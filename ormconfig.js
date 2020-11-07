@@ -1,21 +1,21 @@
 require('dotenv').config();
 module.exports = [
   {
+    name: 'default',
     type: 'mysql',
-    host: process.env.TYPEORM_HOST,
-    port: parseInt(process.env.TYPEORM_PORT, 3306),
-    username: process.env.TYPEORM_USERNAME,
-    password: process.env.TYPEORM_PASSWORD,
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT, 3306),
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
     schema: 'public',
-    migrationsTableName: 'custom_migration_table',
-    database: process.env.TYPEORM_DATABASE,
-    entities: [process.env.TYPEORM_ENTITIES],
-    migrations: ['"dist/database/migrations/*{.ts,.js}"'],
+    database: process.env.DB_DATABASE,
+    entities: [process.env.DB_ENTITIES],
+    migrations: ['dist/database/migrations/*{.ts,.js}'],
     cli: {
       entitiesDir: 'src/entities',
       migrationsDir: 'src/database/migrations',
     },
     synchronize: true,
     logging: true,
-  },
-];
+  }
+]

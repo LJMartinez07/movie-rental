@@ -7,7 +7,8 @@ import {
 
 export class MovieImagesTable1604633019444 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    new Table({
+
+    await queryRunner.createTable(new Table({
       name: 'movie_images',
       columns: [
         {
@@ -23,11 +24,12 @@ export class MovieImagesTable1604633019444 implements MigrationInterface {
         },
         {
           name: 'path',
-          type: 'varchart',
+          type: 'varchar',
           isNullable: false,
         },
       ],
-    });
+    }));
+
 
     await queryRunner.createForeignKey(
       'movie_images',

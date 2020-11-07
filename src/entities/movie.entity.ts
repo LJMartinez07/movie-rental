@@ -4,18 +4,19 @@ import {
   Entity,
   UpdateDateColumn,
   OneToMany,
+  BaseEntity
 } from 'typeorm';
-import { movieImages } from './movieImages';
+import { MovieImages } from './movieImages.entity';
 @Entity()
-export class movie {
+export class Movie extends BaseEntity {
   @Column()
   public id: number;
 
   @Column()
   public title: string;
 
-  @OneToMany(() => movieImages, (image) => image.movie)
-  images: movieImages[];
+  @OneToMany(() => MovieImages, (image) => image.movie)
+  images: MovieImages[];
 
   @Column()
   stock: number;

@@ -15,13 +15,13 @@ export class MovieTable1604630405611 implements MigrationInterface {
           },
           {
             name: 'title',
-            type: 'varchart',
+            type: 'varchar',
             isNullable: false,
           },
 
           {
             name: 'poster_path',
-            type: 'varchart',
+            type: 'varchar',
             isNullable: false,
           },
           {
