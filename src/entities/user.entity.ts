@@ -4,26 +4,28 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  Unique,
+  Index,
   UpdateDateColumn,
   OneToMany,
   ManyToMany,
   JoinTable,
-  BaseEntity
+  BaseEntity,
 } from 'typeorm';
+import { Exclude } from "class-transformer";
 import { Auth } from './auth.entity'
 import { Role } from './role.entity'
 
 @Entity()
-@Unique(['username'])
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
 
   @Column()
+  @Index({ unique: true })
   public username: string;
 
   @Column()
+  @Index({ unique: true })
   public email: string;
 
   @Column()
@@ -37,6 +39,7 @@ export class User extends BaseEntity {
   roles: Role[];
 
   @Column()
+  @Exclude()
   public password: string;
 
   @OneToMany(

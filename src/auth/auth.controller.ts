@@ -5,33 +5,45 @@ import {
     ValidationPipe,
     Delete,
     UseGuards,
+    HttpCode
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './services/auth.service'
 import { Auth } from '../entities/auth.entity'
+import { User } from '../entities/user.entity'
 import { UserRegistrationDto } from '../shared/dtos/request/user-registration.dto';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto'
-@Controller('auth')
+import { ApiResponse } from 'src/shared/response/ApiResponse';
+import { CheckTokenGuard } from 'src/shared/guards/check-token.guard';
+import { routes } from 'src/constants';
+@Controller(routes.auth)
 export class AuthController {
     constructor(private authService: AuthService) { }
     @Post('/register')
     register(
         @Body(ValidationPipe) userRegistrationDto: UserRegistrationDto,
-    ): Promise<void> {
+    ): Promise<ApiResponse> {
         return this.authService.register(userRegistrationDto);
     }
 
     @Post('/login')
+    @HttpCode(200)
     signIn(
         @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
-    ): Promise<Auth> {
+    ): Promise<ApiResponse> {
         return this.authService.login(authCredentialsDto);
     }
 
     @Delete('/logout')
-    @UseGuards(AuthGuard())
-    logout(): Promise<void> {
+    @UseGuards(AuthGuard(), CheckTokenGuard)
+    logout(): Promise<ApiResponse> {
         return this.authService.logout();
+    }
+
+    @Post('/refresh')
+    @HttpCode(200)
+    refreshToken(@Body('refresh_token') refresh_token: string): Promise<ApiResponse> {
+        return this.authService.refreshToken(refresh_token);
     }
 
 }

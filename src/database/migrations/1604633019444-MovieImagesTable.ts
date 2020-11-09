@@ -36,7 +36,7 @@ export class MovieImagesTable1604633019444 implements MigrationInterface {
       new TableForeignKey({
         columnNames: ['movie_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'movies',
+        referencedTableName: 'movie',
         onDelete: 'CASCADE',
       }),
     );

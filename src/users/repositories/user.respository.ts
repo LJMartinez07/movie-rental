@@ -3,6 +3,8 @@ import {
     ConflictException,
     InternalServerErrorException,
     NotFoundException,
+    Logger,
+
     BadRequestException,
 } from '@nestjs/common';
 import { AuthCredentialsDto } from 'src/auth/dto/auth-credentials.dto';
@@ -13,7 +15,7 @@ import { UserRegistrationDto } from 'src/shared/dtos/request/user-registration.d
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-    constructor() {
+    constructor(private logger: Logger) {
         super();
     }
 
@@ -26,9 +28,6 @@ export class UserRepository extends Repository<User> {
         const page = paginationDto.page || 1;
         const limit = paginationDto.limit || 10;
         const skip = (page - 1) * limit;
-
-
-
         const [users, totalCount] = await this.createQueryBuilder('user')
             .take(limit)
             .skip(skip)
@@ -53,10 +52,12 @@ export class UserRepository extends Repository<User> {
             user.email = email;
             user.password = password;
             user.hashPassword()
-            await this.save(user);
+            await user.save();
+            delete user.password;
             return user;
         } catch (error) {
-            if (error.code === '23505') {
+            console.log(error.code)
+            if (error.code === 'ER_DUP_ENTRY') {
                 throw new ConflictException('Username or email already exist');
             } else {
                 throw new InternalServerErrorException();
@@ -85,7 +86,7 @@ export class UserRepository extends Repository<User> {
             user.hashPassword()
             user.reset_password_token = null;
             user.reset_passwor_token_expires_in = null;
-            await this.save(user);
+            await user.save();
         } catch (error) {
             throw new InternalServerErrorException();
         }
@@ -116,13 +117,10 @@ export class UserRepository extends Repository<User> {
         authCredentialsDto: AuthCredentialsDto,
     ): Promise<AuthorizedUser> {
         const { username, password } = authCredentialsDto;
-
         const user = await this.findOne({ username }, { relations: ['roles'] });
-
         if (user && (await user.checkIfUnencryptedPasswordIsValid(password))) {
-            const roleNames: string[] = user.roles.map(role => role.label);
-
-            return { user_id: user.id, username, roles: roleNames };
+            const role_names: string[] = user.roles.map(role => role.label);
+            return { user_id: user.id, username, roles: role_names };
         } else {
             throw new NotFoundException(`Invalid username or password`);
         }

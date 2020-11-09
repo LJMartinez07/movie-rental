@@ -5,7 +5,8 @@ import {
     ManyToOne,
     UpdateDateColumn,
     BaseEntity,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
+    JoinColumn
 } from 'typeorm';
 import { Movie } from './movie.entity'
 @Entity()
@@ -16,9 +17,12 @@ export class MovieImages extends BaseEntity {
     @Column()
     public path: string;
 
-    @ManyToOne(() => Movie, movie => movie.images)
-    movie: Movie
+    @Column()
+    movie_id: number;
 
+    @ManyToOne(() => Movie, movie => movie.images)
+    @JoinColumn({ name: "movie_id" })
+    movie: Movie
 
     @Column()
     @CreateDateColumn()
