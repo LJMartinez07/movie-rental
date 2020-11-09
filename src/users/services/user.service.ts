@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from '../repositories/user.respository'
 import { User } from '../../entities/user.entity'
 import { ApiResponse } from '../../shared/response/ApiResponse';
+import { AuthorizedUser } from 'src/shared/interfaces/authorized-user.interface';
 @Injectable()
 export class UserService {
     constructor(@InjectRepository(UserRepository)
@@ -20,5 +21,15 @@ export class UserService {
             throw new NotFoundException(`User with id: "${id}" not found`);
         }
         return user;
+    }
+
+
+    async updateUserRoles(
+        id: number,
+        roles: string[],
+    ) {
+        const changedUser = await this.userRepository.updateUserRole(id, roles);
+
+        return new ApiResponse('API_SUCCESS', changedUser);
     }
 }

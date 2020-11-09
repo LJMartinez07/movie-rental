@@ -6,7 +6,8 @@ import { MovieRepository } from 'src/movies/repositories/movie.repository';
 import { MovieService } from 'src/movies/services/movie.service';
 import { UserRepository } from 'src/users/repositories/user.respository';
 import { MoviesController } from './movies/movies.controller';
-
+import { UsersController } from './users/users.controller'
+import { UserService } from '../users/services/user.service'
 @Module({
     imports: [
         AuthModule,
@@ -16,7 +17,7 @@ import { MoviesController } from './movies/movies.controller';
             LikeRepository,
         ]),
     ],
-    controllers: [MoviesController],
-    providers: [MovieService]
+    controllers: [MoviesController, UsersController],
+    providers: [MovieService, UserService]
 })
 export class AdminModule { }

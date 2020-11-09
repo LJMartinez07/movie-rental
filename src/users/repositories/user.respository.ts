@@ -91,7 +91,7 @@ export class UserRepository extends Repository<User> {
         }
     }
 
-    async updateUserRole(id: number, roles: string[]): Promise<User> {
+    async updateUserRole(id: number, roles: string[]) {
         const user = await this.findOne({ id });
         const mappedRoles = await Promise.all(
             roles.map(async role => {
@@ -111,6 +111,23 @@ export class UserRepository extends Repository<User> {
         return user;
     }
 
+    async updateUserRoles(id: number, roles: string[]) {
+        try {
+            const user = await this.findOne({ id });
+            const mappedRoles = await Promise.all(
+                roles.map(async role => {
+                    const found = await Role.findOne({ label: role });
+                    return found;
+                }),
+            );
+            user.roles = mappedRoles;
+            await user.save();
+            return user;
+        } catch (error) {
+            throw new InternalServerErrorException();
+        }
+
+    }
 
     async validateUserPassword(
         authCredentialsDto: AuthCredentialsDto,
