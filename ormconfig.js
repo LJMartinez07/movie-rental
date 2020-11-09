@@ -9,7 +9,7 @@ module.exports = [
     password: process.env.DB_PASSWORD,
     schema: 'public',
     database: process.env.DB_DATABASE,
-    entities: [process.env.DB_ENTITIES],
+    entities: ['dist/**/*.entity.{ts,js}'],
     migrations: ['dist/database/migrations/*{.ts,.js}'],
     cli: {
       entitiesDir: 'src/entities',

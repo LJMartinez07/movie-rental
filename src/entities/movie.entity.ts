@@ -4,12 +4,13 @@ import {
   Entity,
   UpdateDateColumn,
   OneToMany,
-  BaseEntity
+  BaseEntity,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { MovieImages } from './movieImages.entity';
 @Entity()
 export class Movie extends BaseEntity {
-  @Column()
+  @PrimaryGeneratedColumn()
   public id: number;
 
   @Column()
@@ -41,4 +42,3 @@ export class Movie extends BaseEntity {
   @UpdateDateColumn()
   public updated_at: Date;
 }
-export default movie;

@@ -1,3 +1,4 @@
+
 import {
     Entity,
     BaseEntity,
@@ -6,17 +7,19 @@ import {
     ManyToOne,
 } from 'typeorm';
 import { User } from './user.entity';
-
 @Entity()
 export class Auth extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    userId: number;
+    user_id: number;
 
     @Column()
-    accessToken: string;
+    access_token: string;
+
+    @Column({ type: 'timestamp' })
+    refresh_expires_at: Date;
 
     @ManyToOne(
         type => User,

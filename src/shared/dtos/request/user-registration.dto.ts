@@ -5,10 +5,10 @@ export class UserRegistrationDto {
     username: string;
 
     @IsString()
-    firstName: string;
+    first_name: string;
 
     @IsString()
-    lastName: string;
+    last_name: string;
 
     @IsString()
     email: string;

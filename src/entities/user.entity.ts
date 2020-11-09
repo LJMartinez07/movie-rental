@@ -6,13 +6,17 @@ import {
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
-  OneToMany
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+  BaseEntity
 } from 'typeorm';
 import { Auth } from './auth.entity'
+import { Role } from './role.entity'
 
 @Entity()
 @Unique(['username'])
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
 
@@ -28,6 +32,10 @@ export class User {
   @Column()
   public last_name: string;
 
+  @ManyToMany(type => Role)
+  @JoinTable()
+  roles: Role[];
+
   @Column()
   public password: string;
 
@@ -36,6 +44,12 @@ export class User {
     auth => auth.user,
   )
   auths: Auth[];
+
+  @Column({ nullable: true })
+  reset_password_token: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  reset_passwor_token_expires_in: Date;
 
   @Column()
   @CreateDateColumn()
@@ -53,4 +67,3 @@ export class User {
     return bcrypt.compareSync(unencryptedPassword, this.password);
   }
 }
-export default User;
