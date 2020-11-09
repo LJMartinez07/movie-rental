@@ -1,4 +1,4 @@
-import { Controller, Post, Body, ValidationPipe, UseGuards, ParseIntPipe, Put, Param } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe, UseGuards, ParseIntPipe, Put, Param, Delete, Patch } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { MovieService } from '../../movies/services/movie.service'
 import { ApiResponse } from '../../shared/response/ApiResponse';
@@ -31,6 +31,18 @@ export class MoviesController {
         @Body(ValidationPipe) updateMovieDto: UpdateMovieDto,
     ): Promise<ApiResponse> {
         return this.moviesService.updateMovie(id, updateMovieDto);
+    }
+
+    @Patch('/:id/availability')
+    updateAvailability(
+        @Param('id', ParseIntPipe) id: number,
+    ): Promise<ApiResponse> {
+        return this.moviesService.updateAvailability(id);
+    }
+
+    @Delete('/:id')
+    deleteMovie(@Param('id', ParseIntPipe) id: number): Promise<ApiResponse> {
+        return this.moviesService.deleteMovie(id);
     }
 
 }

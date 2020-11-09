@@ -5,7 +5,8 @@ import {
   UpdateDateColumn,
   OneToMany,
   BaseEntity,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  DeleteDateColumn
 } from 'typeorm';
 import { MovieImages } from './movieImages.entity';
 import { MovieLogs } from './movieLogs.entity';
@@ -73,4 +74,8 @@ export class Movie extends BaseEntity {
   @Column()
   @UpdateDateColumn()
   public updated_at: Date;
+
+  @Column()
+  @DeleteDateColumn()
+  public deleted_at: Date;
 }

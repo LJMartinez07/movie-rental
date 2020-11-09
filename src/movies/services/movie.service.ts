@@ -69,4 +69,21 @@ export class MovieService {
 
         return new ApiResponse('API_SUCCESS', movie, 'Movie has been updated');
     }
+    async updateAvailability(id: number) {
+        const movie = await this.movieRepository.findOne({ id });
+        if (!movie) {
+            return new ApiResponse('API_ERROR', null, `Movie with ID "${id}" not found`)
+        }
+        movie.availability = !movie.availability;
+        movie.save();
+        return new ApiResponse('API_SUCCESS', { availability: movie.availability }, `Movie availablity updated`);
+    }
+
+    async deleteMovie(id: number) {
+        const result = await this.movieRepository.delete({ id });
+        if (result.affected === 0) {
+            return new ApiResponse('API_ERROR', null, `couldn remove movie ID ${id}`);
+        }
+        return new ApiResponse('API_SUCCESS', null, 'movie has been remove')
+    }
 }
