@@ -1,46 +1,43 @@
-
 import {
     Entity,
-    BaseEntity,
-    PrimaryGeneratedColumn,
     Column,
+    Index,
+    BaseEntity,
     ManyToOne,
-    BeforeInsert,
+    PrimaryGeneratedColumn,
     JoinColumn,
     CreateDateColumn,
     UpdateDateColumn
 } from 'typeorm';
+import { Movie } from './movie.entity';
 import { User } from './user.entity';
+
+@Index(['movie_id', 'user_id'], { unique: true })
 @Entity()
-export class Auth extends BaseEntity {
+export class MovieLikes extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
+    movie_id: number;
+
+    @Column()
     user_id: number;
 
-    @Column()
-    access_token: string;
-
-    @Column()
-    refresh_token: string;
-
-    @Column({ type: 'timestamp' })
-    refresh_expires_at: Date;
+    @ManyToOne(
+        type => Movie,
+        movie => movie.likes,
+    )
+    @JoinColumn({ name: "movie_id" })
+    movie: Movie;
 
     @ManyToOne(
         type => User,
-        user => user.auths,
+        user => user.likes,
     )
     @JoinColumn({ name: "user_id" })
     user: User;
 
-    @BeforeInsert()
-    refreshTokenExpiration(): void {
-        const expiresAt = new Date();
-        expiresAt.setDate(expiresAt.getDate() + 2);
-        this.refresh_expires_at = expiresAt;
-    }
     @Column()
     @CreateDateColumn()
     public created_at: Date;
@@ -48,5 +45,4 @@ export class Auth extends BaseEntity {
     @Column()
     @UpdateDateColumn()
     public updated_at: Date;
-
 }

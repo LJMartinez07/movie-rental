@@ -9,13 +9,11 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './services/auth.service'
-import { Auth } from '../entities/auth.entity'
-import { User } from '../entities/user.entity'
 import { UserRegistrationDto } from '../shared/dtos/request/user-registration.dto';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto'
 import { ApiResponse } from 'src/shared/response/ApiResponse';
 import { CheckTokenGuard } from 'src/shared/guards/check-token.guard';
-import { routes } from 'src/constants';
+import { routes } from 'src/constants/routes';
 @Controller(routes.auth)
 export class AuthController {
     constructor(private authService: AuthService) { }

@@ -8,6 +8,10 @@ import {
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { MovieImages } from './movieImages.entity';
+import { MovieLogs } from './movieLogs.entity';
+import { MovieLikes } from './movieLikes.entity';
+import { Order } from './order.entity';
+import { Rental } from './rental.entity';
 @Entity()
 export class Movie extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -23,7 +27,7 @@ export class Movie extends BaseEntity {
   stock: number;
 
   @Column({ default: 0 })
-  onRent: number;
+  on_rent: number;
 
   @Column({ default: true })
   availability: boolean;
@@ -33,6 +37,31 @@ export class Movie extends BaseEntity {
 
   @Column({ type: 'float' })
   sale_price: number;
+
+
+  @OneToMany(
+    type => MovieLogs,
+    movie_log => movie_log.movie,
+  )
+  movie_log: MovieLogs[];
+
+  @OneToMany(
+    type => MovieLikes,
+    like => like.movie,
+  )
+  likes: MovieLikes[];
+
+  @OneToMany(
+    type => Rental,
+    rentals => rentals.movie,
+  )
+  rentals: Rental[];
+
+  @OneToMany(
+    type => Order,
+    orders => orders.movie,
+  )
+  orders: Order[];
 
   @Column()
   @CreateDateColumn()

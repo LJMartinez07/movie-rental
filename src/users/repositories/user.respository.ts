@@ -4,7 +4,6 @@ import {
     InternalServerErrorException,
     NotFoundException,
     Logger,
-
     BadRequestException,
 } from '@nestjs/common';
 import { AuthCredentialsDto } from 'src/auth/dto/auth-credentials.dto';
@@ -12,13 +11,13 @@ import { User } from '../../entities/user.entity';
 import { AuthorizedUser } from 'src/shared/interfaces/authorized-user.interface';
 import { PaginationDto } from 'src/shared/dtos/request/pagination.dto';
 import { UserRegistrationDto } from 'src/shared/dtos/request/user-registration.dto';
+import { Role } from 'src/entities/role.entity';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
     constructor(private logger: Logger) {
         super();
     }
-
     async getAllUsers(
         paginationDto: PaginationDto,
     ): Promise<{
@@ -92,25 +91,25 @@ export class UserRepository extends Repository<User> {
         }
     }
 
-    // async changeUserRoles(id: number, roles: string[]): Promise<User> {
-    //     const user = await this.findOne({ id });
-    //     const mappedRoles = await Promise.all(
-    //         roles.map(async role => {
-    //             const found = await Role.findOne({ label: role });
-    //             return found;
-    //         }),
-    //     );
+    async updateUserRole(id: number, roles: string[]): Promise<User> {
+        const user = await this.findOne({ id });
+        const mappedRoles = await Promise.all(
+            roles.map(async role => {
+                const found = await Role.findOne({ label: role });
+                return found;
+            }),
+        );
 
-    //     user.roles = mappedRoles;
+        user.roles = mappedRoles;
 
-    //     try {
-    //         await user.save();
-    //     } catch (error) {
-    //         throw new InternalServerErrorException();
-    //     }
+        try {
+            await user.save();
+        } catch (error) {
+            throw new InternalServerErrorException();
+        }
 
-    //     return user;
-    // }
+        return user;
+    }
 
 
     async validateUserPassword(

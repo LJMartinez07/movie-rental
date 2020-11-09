@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcryptjs';
+
 import {
   Column,
   CreateDateColumn,
@@ -14,7 +14,9 @@ import {
 import { Exclude } from "class-transformer";
 import { Auth } from './auth.entity'
 import { Role } from './role.entity'
-
+import { MovieLikes } from './movieLikes.entity';
+import { Order } from './order.entity';
+import * as bcrypt from 'bcryptjs';
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -34,13 +36,19 @@ export class User extends BaseEntity {
   @Column()
   public last_name: string;
 
-  @ManyToMany(type => Role)
-  @JoinTable()
-  roles: Role[];
-
   @Column()
   @Exclude()
   public password: string;
+
+  @Column({ nullable: true })
+  reset_password_token: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  reset_passwor_token_expires_in: Date;
+
+  @ManyToMany(type => Role)
+  @JoinTable()
+  roles: Role[];
 
   @OneToMany(
     type => Auth,
@@ -48,11 +56,17 @@ export class User extends BaseEntity {
   )
   auths: Auth[];
 
-  @Column({ nullable: true })
-  reset_password_token: string;
+  @OneToMany(
+    type => MovieLikes,
+    like => like.user,
+  )
+  likes: MovieLikes[];
 
-  @Column({ type: 'timestamp', nullable: true })
-  reset_passwor_token_expires_in: Date;
+  @OneToMany(
+    type => Order,
+    orders => orders.user,
+  )
+  orders: Order[];
 
   @Column()
   @CreateDateColumn()
