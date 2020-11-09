@@ -2,7 +2,10 @@ import {
     Controller,
     Get,
     UseGuards,
+    Post,
     Query,
+    Param,
+    ParseIntPipe,
 } from '@nestjs/common';
 import { PaginationDto } from 'src/shared/dtos/request/pagination.dto';
 import { GetUser } from 'src/shared/decorators/get-user.decorator';
@@ -12,6 +15,7 @@ import { routes } from 'src/constants/routes';
 import { MovieService } from './services/movie.service';
 import { ApiResponse } from 'src/shared/response/ApiResponse';
 import { MovieFilterDto } from 'src/shared/dtos/request/filters/movie-filter.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 
 @Controller(routes.movies)
@@ -27,6 +31,15 @@ export class MoviesController {
         @GetUser() user?: AuthorizedUser,
     ): Promise<ApiResponse> {
         return this.movieService.getMovies(paginationDto, MovieFilterDto, user);
+    }
+
+    @Post(':id/like')
+    @UseGuards(AuthGuard(), CheckTokenGuard)
+    likeMovie(
+        @Param('id', ParseIntPipe) id: number,
+        @GetUser() user: AuthorizedUser
+    ): Promise<ApiResponse> {
+        return this.movieService.likeMovie(id, user)
     }
 
 }
