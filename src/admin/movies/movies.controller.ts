@@ -1,4 +1,4 @@
-import { Controller, Post, Body, ValidationPipe, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe, UseGuards, ParseIntPipe, Put, Param } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { MovieService } from '../../movies/services/movie.service'
 import { ApiResponse } from '../../shared/response/ApiResponse';
@@ -10,9 +10,10 @@ import { routes } from '../../constants/routes';
 import { RoleGuard } from '../../shared/guards/role.guard';
 import { Roles } from '../../shared/decorators/role.decorator';
 import { UserRoles } from '../../constants/userRoles';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 @UseGuards(AuthGuard(), CheckTokenGuard, RoleGuard)
 @Controller(routes.adminMovies)
-@Roles('admin')
+@Roles(UserRoles.ADMIN)
 export class MoviesController {
     constructor(private moviesService: MovieService) { }
     @Post()
@@ -21,6 +22,15 @@ export class MoviesController {
         @Body(ValidationPipe) createMovieDto: CreateMovieDto,
     ): Promise<ApiResponse> {
         return this.moviesService.storeMovie(createMovieDto);
+    }
+
+
+    @Put('/:id')
+    updateMovie(
+        @Param('id', ParseIntPipe) id: number,
+        @Body(ValidationPipe) updateMovieDto: UpdateMovieDto,
+    ): Promise<ApiResponse> {
+        return this.moviesService.updateMovie(id, updateMovieDto);
     }
 
 }

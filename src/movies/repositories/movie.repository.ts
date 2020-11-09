@@ -8,6 +8,8 @@ import { MovieFilterDto } from 'src/shared/dtos/request/filters/movie-filter.dto
 import { AuthorizedUser } from 'src/shared/interfaces/authorized-user.interface';
 import { InternalServerErrorException } from '@nestjs/common';
 import { CreateMovieDto } from 'src/admin/movies/dto/create-movie.dto';
+import { MovieLogs } from 'src/entities/movieLogs.entity';
+import { UpdateMovieDto } from 'src/admin/movies/dto/update-movie.dto';
 
 @EntityRepository(Movie)
 export class MovieRepository extends Repository<Movie> {
@@ -85,5 +87,19 @@ export class MovieRepository extends Repository<Movie> {
         } catch (error) {
             throw new InternalServerErrorException();
         }
+    }
+    async updateMovie(id: number, updateMovieDto: UpdateMovieDto) {
+        const movieFind = await this.findOne({ id });
+        if (movieFind.stock !== updateMovieDto.stock) {
+            const movie_id = movieFind.id;
+            delete movieFind.id;
+            this.createQueryBuilder()
+                .insert()
+                .into(MovieLogs)
+                .values({ ...movieFind, movie_id })
+                .execute();
+        }
+        const data = await this.update(id, updateMovieDto);
+        return await this.findOne({ id });
     }
 }

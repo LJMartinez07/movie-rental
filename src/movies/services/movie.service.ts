@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateMovieDto } from 'src/admin/movies/dto/create-movie.dto';
+import { UpdateMovieDto } from 'src/admin/movies/dto/update-movie.dto';
 import { MovieFilterDto } from 'src/shared/dtos/request/filters/movie-filter.dto';
 import { PaginationDto } from 'src/shared/dtos/request/pagination.dto';
 import { AuthorizedUser } from 'src/shared/interfaces/authorized-user.interface';
@@ -56,6 +57,16 @@ export class MovieService {
     }
 
     async storeMovie(createMovieDto: CreateMovieDto) {
-        return this.movieRepository.storeMovie(createMovieDto);
+        const data = await this.movieRepository.storeMovie(createMovieDto);
+        return new ApiResponse('API_SUCCESS', data, 'Movie has been created');
+    }
+
+    async updateMovie(
+        id: number,
+        updateMovieDto: UpdateMovieDto,
+    ) {
+        const movie = await this.movieRepository.updateMovie(id, updateMovieDto);
+
+        return new ApiResponse('API_SUCCESS', movie, 'Movie has been updated');
     }
 }
