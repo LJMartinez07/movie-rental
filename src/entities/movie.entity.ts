@@ -15,10 +15,13 @@ import { Rental } from './rental.entity';
 @Entity()
 export class Movie extends BaseEntity {
   @PrimaryGeneratedColumn()
-  public id: number;
+  id: number;
 
   @Column()
-  public title: string;
+  title: string;
+
+  @Column()
+  description: string
 
   @OneToMany(() => MovieImages, (image) => image.movie)
   images: MovieImages[];

@@ -2,11 +2,12 @@ import {
     EntityRepository,
     Repository,
 } from 'typeorm';
-import { Movie } from 'src/entities/movie.entity';
+import { Movie } from '../../entities/movie.entity';
 import { PaginationDto } from 'src/shared/dtos/request/pagination.dto';
 import { MovieFilterDto } from 'src/shared/dtos/request/filters/movie-filter.dto';
 import { AuthorizedUser } from 'src/shared/interfaces/authorized-user.interface';
 import { InternalServerErrorException } from '@nestjs/common';
+import { CreateMovieDto } from 'src/admin/movies/dto/create-movie.dto';
 
 @EntityRepository(Movie)
 export class MovieRepository extends Repository<Movie> {
@@ -63,4 +64,26 @@ export class MovieRepository extends Repository<Movie> {
         }
     }
 
+    async storeMovie(createMovieDto: CreateMovieDto) {
+        try {
+            const {
+                title,
+                description,
+                stock,
+                sale_price,
+                rental_price,
+            } = createMovieDto;
+
+            const movie = new Movie();
+            movie.title = title;
+            movie.description = description;
+            movie.stock = stock;
+            movie.sale_price = sale_price;
+            movie.rental_price = rental_price;
+            await movie.save();
+            return movie;
+        } catch (error) {
+            throw new InternalServerErrorException();
+        }
+    }
 }

@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateMovieDto } from 'src/admin/movies/dto/create-movie.dto';
 import { MovieFilterDto } from 'src/shared/dtos/request/filters/movie-filter.dto';
 import { PaginationDto } from 'src/shared/dtos/request/pagination.dto';
 import { AuthorizedUser } from 'src/shared/interfaces/authorized-user.interface';
-import { ApiResponse } from 'src/shared/response/ApiResponse';
+import { ApiResponse } from '../../shared/response/ApiResponse'
 import { LikeRepository } from '../repositories/like.repository';
 import { MovieRepository } from '../repositories/movie.repository'
+
 
 @Injectable()
 export class MovieService {
@@ -53,4 +55,7 @@ export class MovieService {
         return new ApiResponse('API_SUCCESS', null, 'like has been removed');
     }
 
+    async storeMovie(createMovieDto: CreateMovieDto) {
+        return this.movieRepository.storeMovie(createMovieDto);
+    }
 }

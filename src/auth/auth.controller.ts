@@ -11,9 +11,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './services/auth.service'
 import { UserRegistrationDto } from '../shared/dtos/request/user-registration.dto';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto'
-import { ApiResponse } from 'src/shared/response/ApiResponse';
-import { CheckTokenGuard } from 'src/shared/guards/check-token.guard';
-import { routes } from 'src/constants/routes';
+import { ApiResponse } from '../shared/response/ApiResponse';
+import { CheckTokenGuard } from '../shared/guards/check-token.guard';
+import { routes } from '../constants/routes';
 @Controller(routes.auth)
 export class AuthController {
     constructor(private authService: AuthService) { }

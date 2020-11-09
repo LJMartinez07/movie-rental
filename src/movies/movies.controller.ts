@@ -7,14 +7,14 @@ import {
     Param,
     ParseIntPipe,
 } from '@nestjs/common';
-import { PaginationDto } from 'src/shared/dtos/request/pagination.dto';
-import { GetUser } from 'src/shared/decorators/get-user.decorator';
-import { AuthorizedUser } from 'src/shared/interfaces/authorized-user.interface';
-import { CheckTokenGuard } from 'src/shared/guards/check-token.guard';
-import { routes } from 'src/constants/routes';
+import { PaginationDto } from '../shared/dtos/request/pagination.dto';
+import { GetUser } from '../shared/decorators/get-user.decorator';
+import { AuthorizedUser } from '../shared/interfaces/authorized-user.interface';
+import { CheckTokenGuard } from '../shared/guards/check-token.guard';
+import { routes } from '../constants/routes';
 import { MovieService } from './services/movie.service';
-import { ApiResponse } from 'src/shared/response/ApiResponse';
-import { MovieFilterDto } from 'src/shared/dtos/request/filters/movie-filter.dto';
+import { ApiResponse } from '../shared/response/ApiResponse';
+import { MovieFilterDto } from '../shared/dtos/request/filters/movie-filter.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 

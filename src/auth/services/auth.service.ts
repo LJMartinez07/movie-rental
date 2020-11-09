@@ -6,7 +6,8 @@ import { UserRepository } from '../../users/repositories/user.respository'
 import { AuthRepository } from '../repositories/auth.respository'
 import { UserRegistrationDto } from '../../shared/dtos/request/user-registration.dto';
 import { JwtPayload } from '../jwt-payload.interface';
-import { ApiResponse } from 'src/shared/response/ApiResponse';
+import { ApiResponse } from '../../shared/response/ApiResponse';
+import { UserRoles } from 'src/constants/userRoles';
 @Injectable()
 export class AuthService {
     constructor(
@@ -22,10 +23,10 @@ export class AuthService {
         return new ApiResponse('API_SUCCESS', user, 'user has been created');
     }
     async login(authCredentialDto: AuthCredentialsDto) {
-        const { user_id, username } = await this.userRepository.validateUserPassword(
+        const { user_id, username, roles } = await this.userRepository.validateUserPassword(
             authCredentialDto,
         );
-        const payload: JwtPayload = { username };
+        const payload: JwtPayload = { username, roles: roles.map(r => r as UserRoles), };
         const accessToken = this.jwtService.sign(payload);
         const data = await this.authRepository.login(accessToken, user_id);
         return new ApiResponse('API_SUCCESS', data, 'user authenticated');
@@ -40,7 +41,7 @@ export class AuthService {
             refresh_token,
         );
         const user = token.user;
-        const payload: JwtPayload = { username: user.username };
+        const payload: JwtPayload = { username: user.username, roles: user.roles.map(r => r.label as UserRoles), };
         const accessToken = this.jwtService.sign(payload);
         this.authRepository.delete(token);
         const data = await this.authRepository.login(accessToken, user.id);

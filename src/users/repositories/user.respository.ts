@@ -11,7 +11,7 @@ import { User } from '../../entities/user.entity';
 import { AuthorizedUser } from 'src/shared/interfaces/authorized-user.interface';
 import { PaginationDto } from 'src/shared/dtos/request/pagination.dto';
 import { UserRegistrationDto } from 'src/shared/dtos/request/user-registration.dto';
-import { Role } from 'src/entities/role.entity';
+import { Role } from '../../entities/role.entity';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
