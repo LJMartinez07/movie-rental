@@ -42,6 +42,8 @@ export class Movie extends BaseEntity {
   @Column({ type: 'float' })
   sale_price: number;
 
+  @Column({ type: 'float' })
+  daily_penalty: number;
 
   @OneToMany(
     type => MovieLogs,
@@ -57,9 +59,9 @@ export class Movie extends BaseEntity {
 
   @OneToMany(
     type => Rental,
-    rentals => rentals.movie,
+    rental => rental.movie,
   )
-  rentals: Rental[];
+  rental: Rental[];
 
   @OneToMany(
     type => Order,

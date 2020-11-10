@@ -29,9 +29,6 @@ export class Order extends BaseEntity {
     @Column({ type: 'float' })
     total: number;
 
-    @Column({ type: 'timestamp' })
-    createdAt: Date;
-
     @ManyToOne(
         type => Movie,
         movie => movie.orders,
@@ -44,10 +41,6 @@ export class Order extends BaseEntity {
     )
     user: User;
 
-    @BeforeInsert()
-    setCreatedAt(): void {
-        this.createdAt = new Date();
-    }
 
     @AfterInsert()
     async sellMovie(): Promise<void> {

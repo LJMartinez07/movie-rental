@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateMovieDto } from 'src/admin/movies/dto/create-movie.dto';
-import { UpdateMovieDto } from 'src/admin/movies/dto/update-movie.dto';
-import { MovieFilterDto } from 'src/shared/dtos/request/filters/movie-filter.dto';
-import { PaginationDto } from 'src/shared/dtos/request/pagination.dto';
-import { AuthorizedUser } from 'src/shared/interfaces/authorized-user.interface';
+import { CreateMovieDto } from '../../admin/movies/dto/create-movie.dto';
+import { UpdateMovieDto } from '../../admin/movies/dto/update-movie.dto';
+import { MovieFilterDto } from '../../shared/dtos/request/filters/movie-filter.dto';
+import { PaginationDto } from '../../shared/dtos/request/pagination.dto';
+import { AuthorizedUser } from '../../shared/interfaces/authorized-user.interface';
 import { ApiResponse } from '../../shared/response/ApiResponse'
 import { LikeRepository } from '../repositories/like.repository';
 import { MovieRepository } from '../repositories/movie.repository'
@@ -77,6 +77,17 @@ export class MovieService {
         movie.availability = !movie.availability;
         movie.save();
         return new ApiResponse('API_SUCCESS', { availability: movie.availability }, `Movie availablity updated`);
+    }
+
+    async findMovie(id: number) {
+        const movie = await this.movieRepository.findOne(
+            { id },
+        );
+        console.log(movie)
+        if (!movie) {
+            throw new NotFoundException(`Movie with ID "${id}" not found`);
+        }
+        return movie;
     }
 
     async deleteMovie(id: number) {

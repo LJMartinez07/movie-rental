@@ -3,5 +3,7 @@ export const routes = {
     users: 'users',
     movies: 'movies',
     adminMovies: 'admin/movies',
-    adminUsers: 'admin/users'
+    adminUsers: 'admin/users',
+    customerBuy: 'customer/orders/buy',
+    customerRental: 'customer/orders/rentals'
 };

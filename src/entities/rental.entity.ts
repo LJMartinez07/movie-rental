@@ -7,6 +7,7 @@ import {
     AfterInsert,
     CreateDateColumn,
     UpdateDateColumn,
+    JoinColumn,
 } from 'typeorm';
 import { Transform } from 'class-transformer';
 import { Movie } from './movie.entity';
@@ -33,11 +34,21 @@ export class Rental extends BaseEntity {
 
     @ManyToOne(
         type => Movie,
-        movie => movie.rentals,
+        movie => movie.rental,
         { eager: true },
     )
+    @JoinColumn({ name: "movie_id" })
     @Transform(movie => movie.name)
     movie: Movie;
+
+
+    @Column()
+    @CreateDateColumn()
+    public created_at: Date;
+
+    @Column()
+    @UpdateDateColumn()
+    public updated_at: Date;
 
     @AfterInsert()
     async rentMovie(): Promise<void> {
@@ -47,11 +58,4 @@ export class Rental extends BaseEntity {
         await movie.save();
     }
 
-    @Column()
-    @CreateDateColumn()
-    public created_at: Date;
-
-    @Column()
-    @UpdateDateColumn()
-    public updated_at: Date;
 }

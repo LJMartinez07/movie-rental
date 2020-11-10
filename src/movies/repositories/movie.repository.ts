@@ -8,7 +8,7 @@ import { MovieFilterDto } from 'src/shared/dtos/request/filters/movie-filter.dto
 import { AuthorizedUser } from 'src/shared/interfaces/authorized-user.interface';
 import { InternalServerErrorException } from '@nestjs/common';
 import { CreateMovieDto } from 'src/admin/movies/dto/create-movie.dto';
-import { MovieLogs } from 'src/entities/movieLogs.entity';
+import { MovieLogs } from '../../entities/movieLogs.entity';
 import { UpdateMovieDto } from 'src/admin/movies/dto/update-movie.dto';
 
 @EntityRepository(Movie)
