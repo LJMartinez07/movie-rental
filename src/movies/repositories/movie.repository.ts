@@ -10,6 +10,8 @@ import { InternalServerErrorException } from '@nestjs/common';
 import { CreateMovieDto } from 'src/admin/movies/dto/create-movie.dto';
 import { MovieLogs } from '../../entities/movieLogs.entity';
 import { UpdateMovieDto } from 'src/admin/movies/dto/update-movie.dto';
+import { UserRoles } from 'src/constants/userRoles';
+import { MovieImages } from 'src/entities/movieImages.entity';
 
 @EntityRepository(Movie)
 export class MovieRepository extends Repository<Movie> {
@@ -19,14 +21,11 @@ export class MovieRepository extends Repository<Movie> {
         user?: AuthorizedUser,
     ) {
         try {
-
-
             const page = paginationDto.page || 1;
             const limit = paginationDto.limit || 10;
             const sort = paginationDto.sort || 'title';
             const skip = (page - 1) * limit;
             const query = this.createQueryBuilder('movie');
-
             if (MovieFilterDto) {
                 if (MovieFilterDto.hasOwnProperty('title')) {
                     query.where('movie.title LIKE :title', {
@@ -44,7 +43,19 @@ export class MovieRepository extends Repository<Movie> {
                 } else {
                     query
                         .leftJoinAndSelect('movie.likes', 'like');
+                    query
+                        .leftJoinAndSelect('movie.images', 'image');
                 }
+            }
+
+            if (user && user.roles.includes(UserRoles.ADMIN) && MovieFilterDto.hasOwnProperty('availability')) {
+                query.andWhere('movie.availability = :availability', {
+                    availability: MovieFilterDto.availability,
+                });
+            } else {
+                query.andWhere('movie.availability = :availability', {
+                    availability: true,
+                });
             }
 
             let sorts = sort.split(',');
@@ -74,6 +85,8 @@ export class MovieRepository extends Repository<Movie> {
                 stock,
                 sale_price,
                 rental_price,
+                images,
+                daily_penalty
             } = createMovieDto;
 
             const movie = new Movie();
@@ -82,7 +95,16 @@ export class MovieRepository extends Repository<Movie> {
             movie.stock = stock;
             movie.sale_price = sale_price;
             movie.rental_price = rental_price;
+            movie.daily_penalty = daily_penalty;
             await movie.save();
+            if (images) {
+                images.forEach(async image => {
+                    const movieImage = new MovieImages();
+                    movieImage.movie_id = movie.id;
+                    movieImage.path = image;
+                    await movieImage.save()
+                })
+            }
             return movie;
         } catch (error) {
             throw new InternalServerErrorException();
