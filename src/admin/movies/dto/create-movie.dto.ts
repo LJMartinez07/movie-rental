@@ -16,6 +16,14 @@ export class CreateMovieDto {
 
     @ApiProperty()
     @IsNotEmpty()
+    images: string[];
+
+    @ApiProperty()
+    @IsNotEmpty()
+    daily_penalty
+
+    @ApiProperty()
+    @IsNotEmpty()
     sale_price: number;
 
     @ApiProperty()
