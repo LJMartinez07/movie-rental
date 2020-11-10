@@ -10,6 +10,7 @@ import { InternalServerErrorException } from '@nestjs/common';
 import { CreateMovieDto } from 'src/admin/movies/dto/create-movie.dto';
 import { MovieLogs } from '../../entities/movieLogs.entity';
 import { UpdateMovieDto } from 'src/admin/movies/dto/update-movie.dto';
+import { UserRoles } from 'src/constants/userRoles';
 
 @EntityRepository(Movie)
 export class MovieRepository extends Repository<Movie> {
@@ -45,6 +46,16 @@ export class MovieRepository extends Repository<Movie> {
                     query
                         .leftJoinAndSelect('movie.likes', 'like');
                 }
+            }
+
+            if (user && user.roles.includes(UserRoles.ADMIN) && MovieFilterDto.hasOwnProperty('availability')) {
+                query.andWhere('movie.availability = :availability', {
+                    availability: MovieFilterDto.availability,
+                });
+            } else {
+                query.andWhere('movie.availability = :availability', {
+                    availability: true,
+                });
             }
 
             let sorts = sort.split(',');
