@@ -1,0 +1,598 @@
+{
+	"info": {
+		"_postman_id": "d0147f55-93d6-4767-af04-24efbed5067f",
+		"name": "movie-rental",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "storeMovie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "ELITE2",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "school123456789",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "sale_price",
+									"value": "506",
+									"type": "text"
+								},
+								{
+									"key": "rental_price",
+									"value": "350",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/admin/movies",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"admin",
+								"movies"
+							]
+						},
+						"description": "create a new movie"
+					},
+					"response": []
+				},
+				{
+					"name": "updateMovie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "description test",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/admin/movies/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"admin",
+								"movies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateMovieAvailability",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/admin/movies/1/availability",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"admin",
+								"movies",
+								"1",
+								"availability"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMovie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/admin/movies/3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"admin",
+								"movies",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUserRoles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "roles[0]",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "roles[1]",
+									"value": "customer",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/admin/users/1/roles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"admin",
+								"users",
+								"1",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "buyMovie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "movie_id",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/customer/orders/buy",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"customer",
+								"orders",
+								"buy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rentMovie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "movie_id",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "returned_at",
+									"value": "2020-11-15",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/customer/orders/rentals",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"customer",
+								"orders",
+								"rentals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "returnMovie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/customer/orders/rentals/3/return",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"customer",
+								"orders",
+								"rentals",
+								"3",
+								"return"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "John_Doe",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "John",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "Doe",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "John_Doe@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "John_Doe@1718",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/auth/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				},
+				"description": "Register an user"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6b9a169e-b867-4b22-b4e3-e0caafaacae7",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "75a418e8-75b4-4d8c-9ae1-e9e3877b90b2",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "John_Doe",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "John_Doe@1718",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/auth/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "authenticated user"
+			},
+			"response": []
+		},
+		{
+			"name": "refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "refresh_token",
+							"value": "q2EzFCf1Q6XAxBeK0L",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/auth/refresh",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"refresh"
+					]
+				},
+				"description": "refresh token to an user authenticated"
+			},
+			"response": []
+		},
+		{
+			"name": "profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "user_id",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/users/profile",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/movies",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"movies"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "-title,stock",
+							"disabled": true
+						},
+						{
+							"key": "title",
+							"value": "hola luis",
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": "title",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "like a movie",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/movies/1/like",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"movies",
+						"1",
+						"like"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
