@@ -1,0 +1,16 @@
+CREATE TABLE `order` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `movie_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  `total` float NOT NULL,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `movieId` int DEFAULT NULL,
+  `userId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_9c1df46440b41d8af8024f3d24f` (`movieId`),
+  KEY `FK_caabe91507b3379c7ba73637b84` (`userId`),
+  CONSTRAINT `FK_9c1df46440b41d8af8024f3d24f` FOREIGN KEY (`movieId`) REFERENCES `movie` (`id`),
+  CONSTRAINT `FK_caabe91507b3379c7ba73637b84` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+)
