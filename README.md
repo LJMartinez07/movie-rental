@@ -34,6 +34,31 @@
 $ npm install
 ```
 
+## Set ENV variables
+
+```
+DB_HOST=
+DB_USERNAME=
+DB_PASSWORD=
+DB_DATABASE=
+DB_PORT=
+DB_SYNCHRONIZE=
+DB_LOGGING=
+DB_ENTITIES=
+DB_MIGRATIONS=
+
+JWT_SECRET=
+JWT_EXPIRATION_TIME=
+```
+
+## Running Migrations
+
+First, you should create the databases on your mysql, then run the following command
+
+```
+$ npm run migration:run
+```
+
 ## Running the app
 
 ```bash
